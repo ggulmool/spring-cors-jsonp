@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS TEST</title>
+    <meta charset="utf-8"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+</head>
+<body>
+<H1># CORS TEST</H1>
+<h2>form submit(요청에 대한 응답으로 브라우져에서 No 'Access-Control-Allow-Origin' 에러 발생하지 않는다. 정상 호출)</h2>
+<form action="http://localhost:8080/cors/user" method="post">
+    <input type="text" name="id"/><br/>
+    <input type="text" name="name"/>
+    <input type="submit" value="form submit"/>
+</form>
+
+<h2>AJAX POST 호출(CORS 적용)</h2>
+AJAX POST 전송: <input type="button" id="sendBtn" value="ajax submit"/>
+
+<script>
+    $("#sendBtn").click(function () {
+        $.ajax({
+            url: 'http://localhost:8080/cors/user',
+            method: 'post',
+            dataType: 'text', // 서버 응답으로 받는 데이터 예상 타입
+            contentType: "application/x-www-form-urlencoded",  // 서버 요청으로 보내려고 하는 데이터 타입
+            data: 'id=testid&name=testname',
+            success: function (data) {
+                alert(data);
+            }
+        });
+    });
+</script>
+</body>
+</html>

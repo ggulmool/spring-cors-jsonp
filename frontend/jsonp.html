@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSONP TEST</title>
+    <meta charset="utf-8"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script>
+        function scriptCallback(data) {
+            alert(JSON.stringify(data));
+        }
+    </script>
+    <script src="http://localhost:8080/jsonp/user?callback=scriptCallback" type="application/javascript"></script>
+</head>
+<body>
+<H1>JSONP TEST</H1>
+<h2>일반AJAX (호출 에러)</h2>
+AJAX 호출 : <input type="button" id="sendBtn" value="AJAX호출"/>
+<div id="ajaxResponse"></div>
+<h2>JSONP</h2>
+JSONP 호출 : <input type="button" id="jsonpSendBtn" value="JSONP호출"/><br/>
+<div id="jsonpResponse"></div>
+
+<script>
+    $("#sendBtn").click(function () {
+        $.ajax({
+            url: 'http://localhost:8080/jsonp/user',
+            dataType: 'json',
+            success: function (data) {
+                $("#ajaxResponse").html(JSON.stringify(data));
+            }
+        });
+    });
+
+
+    $("#jsonpSendBtn").click(function () {
+        $.ajax({
+            url: 'http://localhost:8080/jsonp/user',
+            dataType: 'jsonp',
+            jsonpCallback: 'jsonpCallback'
+        });
+        //$.getJSON('http://localhost:8080/jsonp/user' + '?callback=?', jsonpCallback);
+    });
+
+    function jsonpCallback(data) {
+        $("#jsonpResponse").html(JSON.stringify(data));
+    }
+</script>
+</body>
+</html>
